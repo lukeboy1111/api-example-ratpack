@@ -1,0 +1,70 @@
+buildscript {
+    repositories {
+        jcenter()
+		mavenCentral()
+    }
+    dependencies {
+         classpath "io.ratpack:ratpack-gradle:1.8.0"
+		'io.ratpack:ratpack-session-redis:1.8.0'
+		'io.freefair.gradle:lombok-plugin:3.8.4'
+		
+		
+    }
+}
+
+if (!JavaVersion.current().java8Compatible) {
+  throw new IllegalStateException("Must be built with Java 8 or higher")
+}
+
+// The â€œratpackâ€� plugin applies the â€œapplicationâ€� plugin, making it easy to create a standalone application.
+// See: http://gradle.org/docs/current/userguide/application_plugin.html
+apply plugin: "io.ratpack.ratpack-java"
+
+repositories {
+    jcenter()
+	mavenCentral()
+}
+
+dependencies {
+	compileOnly 'org.projectlombok:lombok:1.18.16'
+	//annotationProcessor 'org.projectlombok:lombok:1.18.16'
+	
+	testCompileOnly 'org.projectlombok:lombok:1.18.16'
+	//testAnnotationProcessor 'org.projectlombok:lombok:1.18.16'
+    testCompile 'junit:junit:4.11'
+
+    // This is a Guice ratpack app
+    compile ratpack.dependency("guice")
+	//compile group: 'org.pac4j', name: 'pac4j-core', version: '3.0.0'
+	compile 'org.pac4j:pac4j-jwt:2.1.0'
+	compile 'org.pac4j:pac4j-http:2.1.0'
+	compile 'org.pac4j:ratpack-pac4j:3.0.0'
+
+	runtime 'org.slf4j:slf4j-simple:1.7.10'
+	
+	
+}
+
+// The â€œratpackâ€� plugin is IDEA aware.
+// It will create a run configuration in IDEA to launch your app in your IDE, with hot reloading.
+apply plugin: "idea"
+
+idea {
+    project {
+        //use JDK 1.8 in idea
+        jdkName "1.8"
+        languageLevel "1.8"
+        ipr {
+            withXml { provider ->
+                def node = provider.asNode()
+                //configure git support for the project in idea
+                node.component.find { it.'@name' == 'VcsDirectoryMappings' }?.mapping[0].'@vcs' = 'Git'
+            }
+        }
+    }
+}
+
+//some CI config
+//apply from: file("gradle/ci.gradle")
+
+mainClassName = "com.lukec.ratpack.main.Application"
