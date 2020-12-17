@@ -1,4 +1,7 @@
 .settings
 .gradle
+.project
 bin
 build
+src/ratpack/redis.yaml
+src/ratpack/config.yaml

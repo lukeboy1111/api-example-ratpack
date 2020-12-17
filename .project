@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>ratpack-example-3</name>
-	<comment>Project ratpack-example-3 created by Buildship.</comment>
+	<name>api-example-ratpack</name>
+	<comment>Project api-example-ratpack created by Buildship.</comment>
 	<projects>
 	</projects>
 	<buildSpec>

@@ -6,7 +6,7 @@ import ratpack.handling.Handler;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import com.lukec.ratpack.module.ModuleRegister;
+import com.lukec.ratpack.registry.ModuleRegister;
 import com.lukec.ratpack.service.TransactionService;
 
 /**

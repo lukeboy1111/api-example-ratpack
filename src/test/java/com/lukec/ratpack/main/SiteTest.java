@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import com.lukec.ratpack.main.Application;
+import com.lukec.ratpack.Application;
 
 import ratpack.test.MainClassApplicationUnderTest;
 

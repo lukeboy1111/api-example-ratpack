@@ -1,6 +1,6 @@
 package com.lukec.ratpack.logging;
 
-import com.lukec.ratpack.module.ModuleRegister;
+import com.lukec.ratpack.registry.ModuleRegister;
 
 import ratpack.handling.Context;
 import ratpack.handling.Handler;
