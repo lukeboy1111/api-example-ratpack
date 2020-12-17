@@ -2,7 +2,6 @@ package com.lukec.ratpack.registry;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.multibindings.Multibinder;
-import com.lukec.ratpack.config.SecretsConfig;
 import com.lukec.ratpack.logging.LoggingHandler;
 import com.lukec.ratpack.main.endpoint.NonSecureEndpoint;
 import com.lukec.ratpack.main.endpoint.SecureEndpoint;
@@ -14,9 +13,7 @@ import com.lukec.ratpack.service.TransactionService;
 import com.lukec.ratpack.service.impl.BalanceServiceImpl;
 import com.lukec.ratpack.service.impl.LoginServiceImpl;
 import com.lukec.ratpack.service.impl.TransactionServiceImpl;
-import com.lukec.ratpack.main.errors.AppServerErrorHandler;
 
-import ratpack.error.ServerErrorHandler;
 import ratpack.handling.HandlerDecorator;
 
 /**
@@ -38,7 +35,6 @@ public class ModuleRegister extends AbstractModule {
     bind(ApplicationHandler.class);
     bind(NonSecureEndpoint.class);
     bind(SecureEndpoint.class);
-    bind(SecretsConfig.class);
     bind(RedisModule.class);
     Multibinder.newSetBinder(binder(), HandlerDecorator.class).addBinding().toInstance(HandlerDecorator.prepend(new LoggingHandler()));
   }
