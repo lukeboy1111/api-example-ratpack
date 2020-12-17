@@ -1,4 +1,4 @@
-package com.lukec.ratpack.main;
+package com.lukec.ratpack.config;
 
 import lombok.Getter;
 import lombok.Setter;

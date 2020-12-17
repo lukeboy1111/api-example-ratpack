@@ -1,7 +1,7 @@
 package com.lukec.ratpack.service.impl;
 
 import com.google.inject.Provides;
-import com.lukec.ratpack.main.SecretsConfig;
+import com.lukec.ratpack.config.SecretsConfig;
 import com.lukec.ratpack.service.LoginService;
 
 import javax.inject.Singleton;

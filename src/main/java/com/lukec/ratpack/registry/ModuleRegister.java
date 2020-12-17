@@ -2,8 +2,8 @@ package com.lukec.ratpack.registry;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.multibindings.Multibinder;
+import com.lukec.ratpack.config.SecretsConfig;
 import com.lukec.ratpack.logging.LoggingHandler;
-import com.lukec.ratpack.main.SecretsConfig;
 import com.lukec.ratpack.main.endpoint.NonSecureEndpoint;
 import com.lukec.ratpack.main.endpoint.SecureEndpoint;
 import com.lukec.ratpack.main.handler.ApplicationHandler;

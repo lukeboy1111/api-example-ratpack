@@ -1,5 +1,9 @@
 package com.lukec.ratpack.service;
 
-public interface BalanceService {
+import org.pac4j.core.profile.UserProfile;
 
+import com.lukec.ratpack.bo.UserBalance;
+
+public interface BalanceService {
+	UserBalance getBalance(UserProfile profile);
 }
