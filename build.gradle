@@ -19,6 +19,7 @@ if (!JavaVersion.current().java8Compatible) {
 // The â€œratpackâ€� plugin applies the â€œapplicationâ€� plugin, making it easy to create a standalone application.
 // See: http://gradle.org/docs/current/userguide/application_plugin.html
 apply plugin: "io.ratpack.ratpack-java"
+apply plugin: "io.ratpack.ratpack-groovy"
 
 repositories {
     jcenter()

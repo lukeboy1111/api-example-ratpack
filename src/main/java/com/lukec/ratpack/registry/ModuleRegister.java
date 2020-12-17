@@ -8,13 +8,16 @@ import com.lukec.ratpack.main.endpoint.SecureEndpoint;
 import com.lukec.ratpack.main.handler.ApplicationHandler;
 import com.lukec.ratpack.redis.RedisModule;
 import com.lukec.ratpack.service.BalanceService;
+import com.lukec.ratpack.service.InitService;
 import com.lukec.ratpack.service.LoginService;
 import com.lukec.ratpack.service.TransactionService;
 import com.lukec.ratpack.service.impl.BalanceServiceImpl;
+import com.lukec.ratpack.service.impl.InitServiceImpl;
 import com.lukec.ratpack.service.impl.LoginServiceImpl;
 import com.lukec.ratpack.service.impl.TransactionServiceImpl;
 
 import ratpack.handling.HandlerDecorator;
+import ratpack.session.SessionModule;
 
 /**
  * An example Guice module.
@@ -28,14 +31,17 @@ public class ModuleRegister extends AbstractModule {
    * @see ApplicationHandler
    */
   protected void configure() {
-	bind(RedisModule.class);
+    bind(RedisModule.class);
     bind(TransactionService.class).to(TransactionServiceImpl.class);
     bind(BalanceService.class).to(BalanceServiceImpl.class);
+    bind(InitService.class).to(InitServiceImpl.class);
     bind(LoginService.class).to(LoginServiceImpl.class);
     bind(ApplicationHandler.class);
     bind(NonSecureEndpoint.class);
     bind(SecureEndpoint.class);
     bind(RedisModule.class);
+    bind(SessionModule.class);
+    //bind(TextTemplate.class);
     Multibinder.newSetBinder(binder(), HandlerDecorator.class).addBinding().toInstance(HandlerDecorator.prepend(new LoggingHandler()));
   }
 

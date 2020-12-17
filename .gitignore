@@ -1,6 +1,7 @@
 .settings
 .gradle
 .project
+.classpath
 bin
 build
 src/ratpack/redis.yaml
