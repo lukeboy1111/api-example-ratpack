@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.lukec.ratpack.bo.Transaction;
+import com.lukec.ratpack.bo.TransactionResponse;
 import com.lukec.ratpack.service.TransactionService;
 
 import ratpack.exec.Promise;
@@ -14,7 +15,6 @@ import ratpack.handling.Context;
 /**
  * The service implementation.
  *
- * @see ApplicationHandler
  */
 public class TransactionServiceImpl implements TransactionService {
 
@@ -25,6 +25,12 @@ public class TransactionServiceImpl implements TransactionService {
 	List<Transaction> list = new ArrayList<>();
 	list.add(t);
 	return Promise.value(list);
+    }
+
+    @Override
+    public Promise<TransactionResponse> spend(Context ctx) {
+	TransactionResponse t = new TransactionResponse("");
+	return Promise.value(t);
     }
 
 }

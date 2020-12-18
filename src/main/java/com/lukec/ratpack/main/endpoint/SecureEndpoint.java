@@ -32,5 +32,15 @@ public class SecureEndpoint implements Action<Chain> {
 		service.getTransactions(ctx).map(Jackson::json).then(ctx::render);
 	    });
 	});
+
+	// Secured with Authorization Header Token
+	chain.prefix("spend", c -> {
+	    // c.all(RatpackPac4j.requireAuth(HeaderClient.class));
+	    c.post(ctx -> {
+		TransactionService service = ctx.get(TransactionService.class);
+		service.spend(ctx).map(Jackson::json).then(ctx::render);
+	    });
+	});
+
     }
 }
