@@ -2,6 +2,9 @@ package com.lukec.ratpack.service;
 
 import com.lukec.ratpack.bo.UserBalance;
 
+import ratpack.exec.Promise;
+import ratpack.handling.Context;
+
 public interface BalanceService {
-	UserBalance getBalance(String token);
+	Promise<UserBalance> getBalance(Context ctx);
 }

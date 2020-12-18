@@ -1,14 +1,15 @@
 package com.lukec.ratpack.redis;
 
+import javax.inject.Singleton;
+
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.lambdaworks.redis.RedisClient;
 import com.lambdaworks.redis.api.StatefulRedisConnection;
 import com.lambdaworks.redis.api.async.RedisAsyncCommands;
+
 import ratpack.server.Service;
 import ratpack.server.StopEvent;
-
-import javax.inject.Singleton;
 
 public class RedisModule extends AbstractModule {
   @Override

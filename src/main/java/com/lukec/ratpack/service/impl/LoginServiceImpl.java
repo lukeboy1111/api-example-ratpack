@@ -12,21 +12,22 @@ import org.pac4j.jwt.config.signature.SignatureConfiguration;
 import org.pac4j.jwt.credentials.authenticator.JwtAuthenticator;
 import org.pac4j.jwt.profile.JwtGenerator;
 
+import com.lukec.ratpack.bo.JwtCollection;
 import com.lukec.ratpack.bo.Secret;
 import com.lukec.ratpack.service.LoginService;
 
 import ratpack.handling.Context;
 
 public class LoginServiceImpl implements LoginService {
-
+    	
 	@Override
-	public String render(Context ctx) throws Exception {
+	public JwtCollection render(Context ctx) throws Exception {
 	    	
 	    	Secret theSecret = ctx.get(Secret.class);
 		return getKey("test@test.com", "Test Person", "READ_WRITE", theSecret.getSecret());
 	}
 
-	private String getKey(String email, String displayName, String role, String secret) throws Exception {
+	private JwtCollection getKey(String email, String displayName, String role, String secret) throws Exception {
 		if (null == secret) {
 			throw new Exception("Secret key cannot be null");
 		}
@@ -40,12 +41,13 @@ public class LoginServiceImpl implements LoginService {
 		final EncryptionConfiguration encryptionConfiguration = new SecretEncryptionConfiguration(secret);
 		final JwtAuthenticator jwtAuthenticator = new JwtAuthenticator(Arrays.asList(signatureConfiguration), Arrays.asList(encryptionConfiguration));
                 final ParameterClient parameterClient = new ParameterClient("token", jwtAuthenticator);
+                String name = parameterClient.getParameterName();
                 parameterClient.setSupportGetRequest(false);
                 parameterClient.setSupportPostRequest(true);
 		JwtGenerator generator = new JwtGenerator(signatureConfiguration, encryptionConfiguration);
 		String jwt = generator.generate(profile);
-
-		return jwt;
+		JwtCollection collection = new JwtCollection(jwtAuthenticator, generator, parameterClient, jwt);
+		return collection;
 	}
 
 }

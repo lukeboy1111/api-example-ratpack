@@ -1,17 +1,20 @@
 package com.lukec.ratpack.main.endpoint;
 
 import static ratpack.groovy.Groovy.groovyTemplate;
-import static ratpack.jackson.Jackson.json;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import org.pac4j.http.client.direct.ParameterClient;
+
 import com.google.common.collect.Maps;
+import com.lukec.ratpack.bo.JwtCollection;
 import com.lukec.ratpack.service.InitService;
 import com.lukec.ratpack.service.LoginService;
 
 import ratpack.func.Action;
 import ratpack.handling.Chain;
+import ratpack.pac4j.RatpackPac4j;
 
 /**
  * REST endpoint that is not secured by JWT.
@@ -23,20 +26,22 @@ public class NonSecureEndpoint implements Action<Chain> {
     	// This is the login call that generates the new token
     	chain.prefix("login", c -> {
     		c.post(ctx -> {
-    		LoginService loginService = ctx.get(LoginService.class);
-                String token = loginService.render(ctx);
-                InitService initService = ctx.get(InitService.class);
-                initService.checkUserInitialised(token);
-                final Map<String, Object> model = Maps.newHashMap();
-                model.put("token", token);
-                ctx.render(groovyTemplate(model, "jwt.html"));
-              })
-    		;
+    		    LoginService loginService = ctx.get(LoginService.class);
+    		    InitService initService = ctx.get(InitService.class);
+    		    JwtCollection jwt = loginService.render(ctx);
+                    String token = jwt.getJwtToken();
+                    ParameterClient parameterClient = jwt.getParameterClient();
+                    RatpackPac4j.authenticator("callback", parameterClient);
+                    initService.checkUserInitialised(ctx, token);
+                    final Map<String, Object> model = Maps.newHashMap();
+                    model.put("token", token);
+                    ctx.render(groovyTemplate(model, "jwt.html"));
+              });
         });
     	chain.get("", ctx -> {
             Map<String, String> response = new HashMap<>();
             response.put("message", "This endpoint is NOT protected by JWT");
-            ctx.render(json(response));
+            ctx.render(groovyTemplate(response, "error401.html"));
         });
     }
 }

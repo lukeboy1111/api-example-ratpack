@@ -1,12 +1,15 @@
 package com.lukec.ratpack.registry;
 
+import org.pac4j.core.client.Clients;
+
 import com.google.inject.AbstractModule;
 import com.google.inject.multibindings.Multibinder;
 import com.lukec.ratpack.logging.LoggingHandler;
 import com.lukec.ratpack.main.endpoint.NonSecureEndpoint;
 import com.lukec.ratpack.main.endpoint.SecureEndpoint;
-import com.lukec.ratpack.main.handler.ApplicationHandler;
 import com.lukec.ratpack.redis.RedisModule;
+import com.lukec.ratpack.repository.UserRepository;
+import com.lukec.ratpack.repository.UserRepositoryImpl;
 import com.lukec.ratpack.service.BalanceService;
 import com.lukec.ratpack.service.InitService;
 import com.lukec.ratpack.service.LoginService;
@@ -36,12 +39,12 @@ public class ModuleRegister extends AbstractModule {
     bind(BalanceService.class).to(BalanceServiceImpl.class);
     bind(InitService.class).to(InitServiceImpl.class);
     bind(LoginService.class).to(LoginServiceImpl.class);
-    bind(ApplicationHandler.class);
+    bind(UserRepository.class).to(UserRepositoryImpl.class);
     bind(NonSecureEndpoint.class);
     bind(SecureEndpoint.class);
     bind(RedisModule.class);
     bind(SessionModule.class);
-    //bind(TextTemplate.class);
+    bind(Clients.class);
     Multibinder.newSetBinder(binder(), HandlerDecorator.class).addBinding().toInstance(HandlerDecorator.prepend(new LoggingHandler()));
   }
 

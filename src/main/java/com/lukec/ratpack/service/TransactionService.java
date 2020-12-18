@@ -1,6 +1,11 @@
 package com.lukec.ratpack.service;
 
-import com.lukec.ratpack.main.handler.ApplicationHandler;
+import java.util.List;
+
+import com.lukec.ratpack.bo.Transaction;
+
+import ratpack.exec.Promise;
+import ratpack.handling.Context;
 
 /**
  * An example service interface.
@@ -9,6 +14,6 @@ import com.lukec.ratpack.main.handler.ApplicationHandler;
  */
 public interface TransactionService {
 
-    String getValue();
+    Promise<List<Transaction>> getTransactions(Context ctx);
 
 }
