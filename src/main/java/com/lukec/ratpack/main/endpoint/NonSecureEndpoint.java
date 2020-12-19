@@ -9,7 +9,7 @@ import org.pac4j.http.client.direct.ParameterClient;
 
 import com.google.common.collect.Maps;
 import com.lukec.ratpack.bo.JwtCollection;
-import com.lukec.ratpack.service.InitService;
+import com.lukec.ratpack.bo.Secret;
 import com.lukec.ratpack.service.LoginService;
 
 import ratpack.func.Action;
@@ -26,13 +26,12 @@ public class NonSecureEndpoint implements Action<Chain> {
     	// This is the login call that generates the new token
     	chain.prefix("login", c -> {
     		c.post(ctx -> {
+    		    Secret theSecret = ctx.get(Secret.class);
     		    LoginService loginService = ctx.get(LoginService.class);
-    		    InitService initService = ctx.get(InitService.class);
-    		    JwtCollection jwt = loginService.render(ctx);
+    		    JwtCollection jwt = loginService.render(theSecret);
                     String token = jwt.getJwtToken();
                     ParameterClient parameterClient = jwt.getParameterClient();
                     RatpackPac4j.authenticator("callback", parameterClient);
-                    initService.checkUserInitialised(ctx, token);
                     final Map<String, Object> model = Maps.newHashMap();
                     model.put("token", token);
                     ctx.render(groovyTemplate(model, "jwt.html"));

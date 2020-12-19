@@ -2,6 +2,8 @@ package com.lukec.ratpack.service.impl;
 
 import java.util.Arrays;
 
+import javax.inject.Inject;
+
 import org.pac4j.core.profile.CommonProfile;
 import org.pac4j.core.profile.definition.CommonProfileDefinition;
 import org.pac4j.http.client.direct.ParameterClient;
@@ -14,17 +16,23 @@ import org.pac4j.jwt.profile.JwtGenerator;
 
 import com.lukec.ratpack.bo.JwtCollection;
 import com.lukec.ratpack.bo.Secret;
+import com.lukec.ratpack.service.InitService;
 import com.lukec.ratpack.service.LoginService;
 
-import ratpack.handling.Context;
-
 public class LoginServiceImpl implements LoginService {
+    	private InitService initService;
+    	
+    	@Inject
+    	public LoginServiceImpl(InitService init) {
+    	    this.initService = init;
+    	}
     	
 	@Override
-	public JwtCollection render(Context ctx) throws Exception {
-	    	
-	    	Secret theSecret = ctx.get(Secret.class);
-		return getKey("test@test.com", "Test Person", "READ_WRITE", theSecret.getSecret());
+	public JwtCollection render(Secret theSecret) throws Exception {
+	    	JwtCollection jwt = getKey("test@test.com", "Test Person", "READ_WRITE", theSecret.getSecret());
+	    	String token = jwt.getJwtToken();
+	    	initService.checkUserInitialised(token);
+		return jwt;
 	}
 
 	private JwtCollection getKey(String email, String displayName, String role, String secret) throws Exception {

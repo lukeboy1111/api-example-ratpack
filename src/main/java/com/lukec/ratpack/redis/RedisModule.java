@@ -13,7 +13,9 @@ import ratpack.server.StopEvent;
 
 public class RedisModule extends AbstractModule {
   @Override
-  protected void configure() { }
+  protected void configure() {
+      bind(UserRepository.class).to(UserRepositoryImpl.class);
+  }
 
   @Provides
   @Singleton

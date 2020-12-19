@@ -11,6 +11,8 @@ import com.lukec.ratpack.bo.Secret;
 import com.lukec.ratpack.main.endpoint.NonSecureEndpoint;
 import com.lukec.ratpack.main.endpoint.SecureEndpoint;
 import com.lukec.ratpack.main.errors.AppServerErrorHandler;
+import com.lukec.ratpack.redis.ConfigurationModule;
+import com.lukec.ratpack.redis.RedisConfig;
 import com.lukec.ratpack.registry.ModuleRegister;
 
 import ratpack.error.ClientErrorHandler;
@@ -33,7 +35,9 @@ public class Application {
 					.yaml("config.yaml")
 					.yaml("redis.yaml")
 					.require("/secrets-config", Secret.class)
+					.require("/redis", RedisConfig.class)
 					.baseDir(BaseDir.find()).build()
+					
 				)
 				.registry(Guice.registry(bindingsSpec -> bindingsSpec.module(ModuleRegister.class)
 						.bind(ServerErrorHandler.class, AppServerErrorHandler.class)
@@ -49,8 +53,10 @@ public class Application {
 			                                LOGGER.error("Unexpected: {}", statusCode);
 			                            }
 			                        })
+						.module(ConfigurationModule.class)
 						.module(TextTemplateModule.class)
 						.module(SessionModule.class)
+						
 					)
 						
 				)

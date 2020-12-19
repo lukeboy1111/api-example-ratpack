@@ -1,10 +1,10 @@
 package com.lukec.ratpack.service;
 
+import java.util.Optional;
+
 import com.lukec.ratpack.bo.UserBalance;
 
-import ratpack.exec.Promise;
-import ratpack.handling.Context;
-
 public interface BalanceService {
-	Promise<UserBalance> getBalance(Context ctx);
+	Optional<UserBalance> getBalance(String token);
+	UserBalance retrieveFullBalance(String token) throws Exception;
 }
