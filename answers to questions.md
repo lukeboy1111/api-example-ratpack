@@ -16,10 +16,15 @@ Some of this was down to my work environment. My Mac Book that I normally use ha
 Lots of things I ran out of time for that I'd add:
 
 i. **Unit Tests** - because I wasted lots of time figuring stuff out, I've just simply run out of time to do full unit test coverage. Apologies, but it's something I always do, without fail. I've even got my own copy of "Clean Code" by Uncle Bob btw.
+
 ii. **Refactoring** - I probably would refactor some of the objects to be slightly better laid out and I'd remove some of the hacks that I ended up leaving in place (I couldn't quite figure out from the ratpack documentation to access the token itself rather than the Authorisation header, most likely via JWT is the answer) - and of course, make redis completely configurable and stop using Jedis.
+
 iii. **Gson** - I've left Gson in on purpose, I have actually found it better than Jackson as my personal preference - originally I'd planned to rip that out to be consistent over the project.
+
 iv. **JWT** - It's actually not "True" JWT token checking, as this also doesn't seem to work with Pac4j and the documentation on this again was as scant as a caveman's wardrobe.
+
 v. **Docker / Kubernetes** - I've created an embryonic build for Docker process, and I'd likely use https://github.com/qaware/gradle-cloud-deployer to deploy to Kubernetes. I may actually complete this shortly, as I'd like to have done all of this for you too - but, because of the time above, I've totally timed out on it - although I know that both wil definitely work! :)
+
 vi. **Functionality** - I'd have created a sequence to map to tokens, saving us having horrendous key sizes and I'd actually move to using MongoDB to store transactions with Redis working as a forward cache.
 
 In normal circumstances, I wouldn't allow myself to get sidelined for so long. I did moan at Jaco and he mentioned that he too couldn't get redis working and mentioned Jedis, so that made me just use Jedis also, but he didn't provide any other help!
@@ -30,7 +35,7 @@ In general, though, I'm very tigerish about issues, I like to understand the cau
 
 I love the streams API where you can chain things together to map stuff from type to another. Actually, since this task was relatively simple, I didn't really use anything like this here in it's more advanced format, but the ratpack API uses this for example like this:
 
-```service.getTransactions(token).map(Jackson::json).then(ctx::render);``
+`service.getTransactions(token).map(Jackson::json).then(ctx::render);`
 
 There are more concrete examples of this in the documentation, but there's no doubt that it's kinda cool.
 
