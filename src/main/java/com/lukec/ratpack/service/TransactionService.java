@@ -1,12 +1,12 @@
 package com.lukec.ratpack.service;
 
-import java.util.List;
-
 import com.lukec.ratpack.bo.Transaction;
-import com.lukec.ratpack.bo.TransactionResponse;
+import com.lukec.ratpack.bo.TransactionList;
+import com.lukec.ratpack.exception.TransactionException;
+import com.lukec.ratpack.exception.UserException;
 
+import ratpack.exec.Operation;
 import ratpack.exec.Promise;
-import ratpack.handling.Context;
 
 /**
  * An example service interface.
@@ -15,8 +15,6 @@ import ratpack.handling.Context;
  */
 public interface TransactionService {
 
-    Promise<List<Transaction>> getTransactions(Context ctx);
-
-    Promise<TransactionResponse> spend(Context ctx);
-
+    Promise<TransactionList> getTransactions(String token) throws TransactionException;
+    Operation spend(String token, Transaction n) throws UserException;
 }

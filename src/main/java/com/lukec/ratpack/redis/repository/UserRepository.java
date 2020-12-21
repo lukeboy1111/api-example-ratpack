@@ -1,4 +1,4 @@
-package com.lukec.ratpack.redis;
+package com.lukec.ratpack.redis.repository;
 
 import java.util.Optional;
 

@@ -1,5 +1,8 @@
 package com.lukec.ratpack.logging;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.lukec.ratpack.registry.ModuleRegister;
 
 import ratpack.handling.Context;
@@ -11,10 +14,10 @@ import ratpack.handling.Handler;
  * @see ModuleRegister
  */
 public class LoggingHandler implements Handler {
-
+    final static Logger logger = LoggerFactory.getLogger(LoggingHandler.class);
     @Override
     public void handle(Context context) {
-        System.out.println("Received: " + context.getRequest().getUri());
+	logger.warn("Received: " + context.getRequest().getUri());
         context.next();
     }
 }

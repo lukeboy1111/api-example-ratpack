@@ -4,6 +4,10 @@ import javax.inject.Singleton;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
+import com.lukec.ratpack.redis.repository.TransactionRepository;
+import com.lukec.ratpack.redis.repository.UserRepository;
+import com.lukec.ratpack.redis.repository.impl.TransactionRepositoryImpl;
+import com.lukec.ratpack.redis.repository.impl.UserRepositoryImpl;
 
 public class ConfigurationModule extends AbstractModule {
     
@@ -15,5 +19,11 @@ public class ConfigurationModule extends AbstractModule {
     @Singleton
     public UserRepository userRepository(RedisClientProvider provider) {
 	    return new UserRepositoryImpl(provider);
+    }
+    
+    @Provides
+    @Singleton
+    public TransactionRepository TransactionRepository(RedisClientProvider provider) {
+	    return new TransactionRepositoryImpl(provider);
     }
 }

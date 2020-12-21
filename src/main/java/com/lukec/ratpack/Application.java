@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import com.lukec.ratpack.bo.Secret;
 import com.lukec.ratpack.main.endpoint.NonSecureEndpoint;
 import com.lukec.ratpack.main.endpoint.SecureEndpoint;
+import com.lukec.ratpack.main.endpoint.TransactionEndpoint;
 import com.lukec.ratpack.main.errors.AppServerErrorHandler;
 import com.lukec.ratpack.redis.ConfigurationModule;
 import com.lukec.ratpack.redis.RedisConfig;
@@ -61,9 +62,12 @@ public class Application {
 						
 				)
 				.handlers(chain -> 
-						chain.insert(NonSecureEndpoint.class)
+						chain
+						//.insert(TokenFilter.class)
+						.insert(NonSecureEndpoint.class)
 						.insert(SecureEndpoint.class)
-						.all(ctx -> ctx.render("root handler!"))
+						.insert(TransactionEndpoint.class)
+						
 				)
 				);
 	}

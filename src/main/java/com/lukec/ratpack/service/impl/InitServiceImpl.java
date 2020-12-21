@@ -4,29 +4,32 @@ import java.util.Optional;
 
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.lukec.ratpack.bo.UserBalance;
-import com.lukec.ratpack.redis.UserRepository;
+import com.lukec.ratpack.redis.repository.UserRepository;
 import com.lukec.ratpack.service.InitService;
 
 public class InitServiceImpl implements InitService {
-    
-    private UserRepository userRepository;
+    final static Logger logger = LoggerFactory.getLogger(InitServiceImpl.class);
+    private UserRepository repository;
     
     @Inject
     public InitServiceImpl(UserRepository rep) {
-	this.userRepository = rep;
+	this.repository = rep;
     }
     
     @Override
     public void checkUserInitialised(final String token) {
-	System.err.println("CheckUser");
-	Optional<UserBalance> balance = userRepository.getUserBalanceForUser(token);
+	logger.debug("CheckUser");
+	Optional<UserBalance> balance = repository.getUserBalanceForUser(token);
 	if(balance.isPresent()) {
 	    return;
 	}
-	System.err.println("Make Default Balance");
-	userRepository.makeDefaultBalance(token);
-	System.err.println("Exit CheckUser");
+	logger.debug("Make Default Balance");
+	repository.makeDefaultBalance(token);
+	logger.debug("Exit CheckUser");
     }
 
 }
