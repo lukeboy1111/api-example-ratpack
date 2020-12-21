@@ -8,7 +8,9 @@ import com.google.inject.multibindings.Multibinder;
 import com.lukec.ratpack.bo.Transaction;
 import com.lukec.ratpack.bo.TransactionList;
 import com.lukec.ratpack.bo.UserBalance;
+import com.lukec.ratpack.descriptor.LukeCampbell;
 import com.lukec.ratpack.logging.LoggingHandler;
+import com.lukec.ratpack.main.endpoint.LukeEndpoint;
 import com.lukec.ratpack.main.endpoint.NonSecureEndpoint;
 import com.lukec.ratpack.main.endpoint.SecureEndpoint;
 import com.lukec.ratpack.main.endpoint.TransactionEndpoint;
@@ -17,10 +19,12 @@ import com.lukec.ratpack.redis.repository.UserRepository;
 import com.lukec.ratpack.redis.repository.impl.TransactionRepositoryImpl;
 import com.lukec.ratpack.redis.repository.impl.UserRepositoryImpl;
 import com.lukec.ratpack.service.BalanceService;
+import com.lukec.ratpack.service.DescriptionService;
 import com.lukec.ratpack.service.InitService;
 import com.lukec.ratpack.service.LoginService;
 import com.lukec.ratpack.service.TransactionService;
 import com.lukec.ratpack.service.impl.BalanceServiceImpl;
+import com.lukec.ratpack.service.impl.DescriptionServiceImpl;
 import com.lukec.ratpack.service.impl.InitServiceImpl;
 import com.lukec.ratpack.service.impl.LoginServiceImpl;
 import com.lukec.ratpack.service.impl.TransactionServiceImpl;
@@ -43,10 +47,13 @@ public class ModuleRegister extends AbstractModule {
     bind(BalanceService.class).to(BalanceServiceImpl.class);
     bind(InitService.class).to(InitServiceImpl.class);
     bind(LoginService.class).to(LoginServiceImpl.class);
+    bind(DescriptionService.class).to(DescriptionServiceImpl.class);
     
     bind(NonSecureEndpoint.class);
     bind(SecureEndpoint.class);
     bind(TransactionEndpoint.class);
+    bind(LukeEndpoint.class);
+    
     bind(TokenFilter.class);
     bind(Clients.class);
     
@@ -56,6 +63,7 @@ public class ModuleRegister extends AbstractModule {
     bind(UserBalance.class);
     bind(Transaction.class);
     bind(TransactionList.class);
+    bind(LukeCampbell.class);
     Multibinder.newSetBinder(binder(), HandlerDecorator.class).addBinding().toInstance(HandlerDecorator.prepend(new LoggingHandler()));
   }
 

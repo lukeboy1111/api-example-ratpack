@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.lukec.ratpack.bo.Secret;
+import com.lukec.ratpack.main.endpoint.LukeEndpoint;
 import com.lukec.ratpack.main.endpoint.NonSecureEndpoint;
 import com.lukec.ratpack.main.endpoint.SecureEndpoint;
 import com.lukec.ratpack.main.endpoint.TransactionEndpoint;
@@ -67,6 +68,7 @@ public class Application {
 						.insert(NonSecureEndpoint.class)
 						.insert(SecureEndpoint.class)
 						.insert(TransactionEndpoint.class)
+						.insert(LukeEndpoint.class)
 						
 				)
 				);

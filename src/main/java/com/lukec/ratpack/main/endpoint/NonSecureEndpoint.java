@@ -35,7 +35,6 @@ public class NonSecureEndpoint implements Action<Chain> {
                     final Map<String, Object> model = Maps.newHashMap();
                     model.put("token", token);
                     ctx.render(groovyTemplate(model, "jwt.html"));
-                    ctx.next();
               });
         });
     	chain.get("", ctx -> {
