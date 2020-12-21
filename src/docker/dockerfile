@@ -1,0 +1,10 @@
+FROM openjdk:8-jre-alpine
+MAINTAINER Luke Campbell <luke@lukesplace.net>
+FROM redis
+COPY redis.conf /usr/local/etc/redis/redis.conf
+CMD [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
+EXPOSE 5050
+COPY build/distributions/ratpack-docker-example.zip /opt/ratpack-docker-example/
+RUN unzip /opt/ratpack-docker-example/ratpack-docker-example.zip -d /opt/ratpack-docker-example
+WORKDIR /opt/ratpack-docker-example/ratpack-docker-example
+CMD ["./bin/ratpack-docker-example", "-fg"]

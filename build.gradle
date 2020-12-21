@@ -1,25 +1,35 @@
+import com.bmuschko.gradle.docker.tasks.image.*
+
 buildscript {
     repositories {
         jcenter()
-		mavenCentral()
+	mavenCentral()
     }
     dependencies {
          classpath "io.ratpack:ratpack-gradle:1.8.0"
 		'io.ratpack:ratpack-session-redis:1.8.0'
 		'io.freefair.gradle:lombok-plugin:3.8.4'
-		
-		
     }
+}
+
+plugins {
+    id 'application'
+    id 'io.ratpack.ratpack-java' version '1.5.0'
+    // any higher version didn't work correctly, wierd - probably my environment.
+    id 'com.bmuschko.docker-java-application' version '3.5.0'
+    id "de.qaware.cloud.deployer" version "0.9.2"
 }
 
 if (!JavaVersion.current().java8Compatible) {
   throw new IllegalStateException("Must be built with Java 8 or higher")
 }
 
-// The â€œratpackâ€� plugin applies the â€œapplicationâ€� plugin, making it easy to create a standalone application.
+
+// The 'ratpack' plugin applies the â€œapplicationâ€� plugin, making it easy to create a standalone application.
 // See: http://gradle.org/docs/current/userguide/application_plugin.html
 apply plugin: "io.ratpack.ratpack-java"
 apply plugin: "io.ratpack.ratpack-groovy"
+apply plugin: "de.qaware.cloud.deployer"
 
 repositories {
     jcenter()
@@ -27,10 +37,12 @@ repositories {
 }
 
 dependencies {
-	compileOnly 'org.projectlombok:lombok:1.18.16'
-	
-	testCompileOnly 'org.projectlombok:lombok:1.18.16'
+    compileOnly 'org.projectlombok:lombok:1.18.16'
+    testCompileOnly 'org.projectlombok:lombok:1.18.16'
     testCompile 'junit:junit:4.11'
+    // https://mvnrepository.com/artifact/org.mockito/mockito-core
+    testCompile group: 'org.mockito', name: 'mockito-core', version: '2.1.0'
+    
 
     // This is a Guice ratpack app
     compile ratpack.dependency("guice")
@@ -44,7 +56,7 @@ dependencies {
     
 }
 
-// The â€œratpackâ€� plugin is IDEA aware.
+// The 'ratpack' plugin is IDEA aware.
 // It will create a run configuration in IDEA to launch your app in your IDE, with hot reloading.
 apply plugin: "idea"
 
@@ -67,3 +79,14 @@ idea {
 //apply from: file("gradle/ci.gradle")
 
 mainClassName = "com.lukec.ratpack.Application"
+
+distZip {
+    // You only need to set this if you have specified an archive version. This removes the version number
+    // from the final distribution package which makes it easier to script in your Dockerfile.
+    archiveName = 'api-example-ratpack.zip'
+}
+
+task buildImage(type: DockerBuildImage) {
+    inputDir = new File("${projectDir}")
+    dockerFile = new File("${projectDir}/src/docker/Dockerfile")
+}

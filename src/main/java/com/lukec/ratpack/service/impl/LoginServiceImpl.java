@@ -53,7 +53,6 @@ public class LoginServiceImpl implements LoginService {
 	final JwtAuthenticator jwtAuthenticator = new JwtAuthenticator(Arrays.asList(signatureConfiguration),
 		Arrays.asList(encryptionConfiguration));
 	final ParameterClient parameterClient = new ParameterClient("token", jwtAuthenticator);
-	String name = parameterClient.getParameterName();
 	parameterClient.setSupportGetRequest(false);
 	parameterClient.setSupportPostRequest(true);
 	JwtGenerator generator = new JwtGenerator(signatureConfiguration, encryptionConfiguration);

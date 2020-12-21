@@ -8,7 +8,6 @@ import javax.inject.Inject;
 
 import com.lukec.ratpack.bo.Transaction;
 import com.lukec.ratpack.bo.TransactionList;
-import com.lukec.ratpack.bo.TransactionResponse;
 import com.lukec.ratpack.bo.UserBalance;
 import com.lukec.ratpack.exception.TransactionException;
 import com.lukec.ratpack.exception.UserException;
@@ -60,8 +59,7 @@ public class TransactionServiceImpl implements TransactionService {
         	    throw new UserException("Error: Balance Insufficient", new IllegalArgumentException());
         	}
         	balanceService.reduceBalance(token, balanceNow, n.getAmount());
-	    	TransactionResponse t = new TransactionResponse("");
-        	repository.spend(token, n);
+	    	repository.spend(token, n);
         	return Operation.noop();
 	}
 	else {
