@@ -21,6 +21,7 @@ import ratpack.error.ClientErrorHandler;
 import ratpack.error.ServerErrorHandler;
 import ratpack.groovy.template.TextTemplateModule;
 import ratpack.guice.Guice;
+import ratpack.handling.Chain;
 import ratpack.server.BaseDir;
 import ratpack.server.RatpackServer;
 import ratpack.session.SessionModule;
@@ -69,6 +70,7 @@ public class Application {
 						.insert(SecureEndpoint.class)
 						.insert(TransactionEndpoint.class)
 						.insert(LukeEndpoint.class)
+						.prefix("static", nested -> nested.fileSystem("assets/images", Chain::files)) // Bind the /static app path to the src/ratpack/assets/images dir
 						
 				)
 				);

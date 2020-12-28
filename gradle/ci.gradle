@@ -1,1 +1,25 @@
-
+deployer {
+    marathon {
+	id = "marathon-zwitscher"
+	baseUrl = "http://your-address.com"
+	strategy = "REPLACE"
+	auth {
+	    token = defaultToken(file("token.txt"))
+	}
+	files = [file("marathon-zwitscher-config.json")]
+    }
+    kubernetes {
+	id = "kubernetes-zwitscher"
+	baseUrl = "https://your-address.com"
+	namespace = "test"
+	strategy = "UPDATE"
+	auth {
+	    username = "admin"
+	    password = "s3cr3t"
+	}
+	ssl {
+	    trustAll = true
+	}
+	files = [file("kubernetes-zwitscher-config.json")]
+    }
+}

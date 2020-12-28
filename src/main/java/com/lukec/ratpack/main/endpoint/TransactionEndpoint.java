@@ -22,9 +22,7 @@ public class TransactionEndpoint implements Action<Chain> {
 		TransactionService service = ctx.get(TransactionService.class);
 		final String token = ctx.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION);
 		final Map<String, Object> model = Maps.newHashMap();
-		model.put("token", token);
 		ctx.parse(Jackson.fromJson(Transaction.class)).then(t -> service.spend(token, t));
-		model.put("token", token);
 		ctx.render(groovyTemplate(model, "spend.html"));
 
 	    });

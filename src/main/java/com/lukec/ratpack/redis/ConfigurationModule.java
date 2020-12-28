@@ -1,5 +1,6 @@
 package com.lukec.ratpack.redis;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import com.google.inject.AbstractModule;
@@ -10,6 +11,9 @@ import com.lukec.ratpack.redis.repository.impl.TransactionRepositoryImpl;
 import com.lukec.ratpack.redis.repository.impl.UserRepositoryImpl;
 
 public class ConfigurationModule extends AbstractModule {
+    
+    @Inject
+    private RedisClientProvider clientProvider;
     
     @Override
     protected void configure() {

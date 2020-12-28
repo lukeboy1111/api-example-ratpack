@@ -30,6 +30,9 @@ public class BalanceServiceImpl implements BalanceService {
 
     @Override
     public UserBalance retrieveFullBalance(String token) throws UserException {
+	if(token == null) {
+	    throw new UserException("Token Not Present", new IllegalArgumentException());
+	}
 	token = token.replace("Bearer ", "");
 	Optional<UserBalance> bal = userRepository.getUserBalanceForUser(token);
 	if(bal.isPresent()) {

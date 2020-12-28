@@ -5,7 +5,6 @@ import com.lukec.ratpack.bo.TransactionList;
 import com.lukec.ratpack.exception.TransactionException;
 import com.lukec.ratpack.exception.UserException;
 
-import ratpack.exec.Operation;
 import ratpack.exec.Promise;
 
 /**
@@ -16,5 +15,5 @@ import ratpack.exec.Promise;
 public interface TransactionService {
 
     Promise<TransactionList> getTransactions(String token) throws TransactionException;
-    Operation spend(String token, Transaction n) throws UserException;
+    Promise<Transaction> spend(String token, Transaction n) throws UserException;
 }
