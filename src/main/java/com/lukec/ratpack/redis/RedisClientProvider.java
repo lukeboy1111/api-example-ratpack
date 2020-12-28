@@ -4,6 +4,8 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.Objects;
 
+import javax.inject.Inject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,13 +18,24 @@ import redis.clients.jedis.ShardedJedisPool;
  
 public class RedisClientProvider implements Provider<ShardedJedis> {
     final static Logger logger = LoggerFactory.getLogger(RedisClientProvider.class);
-    private String host = "localhost";
-    private Integer port=6379;
-    private String password="";
+    private String host;
+    private Integer port;
+    private String password;
     
     private static ShardedJedisPool sharedPool;
+    
+    @Inject
+    private RedisConfig redisConfig;
  
     private ShardedJedisPool getJedisPool() {
+	this.host = redisConfig.getName();
+	this.port = redisConfig.getPort();
+	this.password = redisConfig.getAuth();
+	logger.warn("---------- REDIS ------------");
+	logger.warn("Host="+this.host);
+	logger.warn("Port="+this.port);
+	logger.warn("Auth="+this.password);
+	logger.warn("---------- END REDIS ------------");
         if (Objects.isNull(sharedPool)) {
             JedisPoolConfig poolConfig = new JedisPoolConfig();
             poolConfig.setMaxTotal(128);

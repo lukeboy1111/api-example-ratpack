@@ -24,7 +24,6 @@ public class SecureEndpoint implements Action<Chain> {
 		Gson gson = new Gson();
 		String balanceText = gson.toJson(bal);
 		ctx.render(balanceText);
-		ctx.next();
 	    });
 	});
 
