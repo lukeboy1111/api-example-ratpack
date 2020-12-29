@@ -26,6 +26,16 @@ If you wish to deploy to google cloud, then modify the gradle build file and do 
 
 On Google Cloud, you can follow these instructions: https://codelabs.developers.google.com/codelabs/cloud-springboot-kubernetes/#5
 
+## Deployments / Postman
+
+I have included a modified version of the postman collection for https://api.campbells.im
+
+You may use https://api.campbells.im directly to query the collection.
+
+It's also deployed to Google Cloud Kubernetes, on address 34.69.35.40 - e.g. http://34.69.35.40:5050/balance (for example, with the token)
+
+
+
 
 ## More on Docker
 
