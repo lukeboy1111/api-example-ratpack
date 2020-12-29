@@ -1,6 +1,5 @@
 package com.lukec.ratpack.redis.repository.impl;
 
-import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -13,6 +12,7 @@ import com.google.gson.Gson;
 import com.lukec.ratpack.bo.UserBalance;
 import com.lukec.ratpack.redis.RedisClientProvider;
 import com.lukec.ratpack.redis.repository.UserRepository;
+import com.lukec.ratpack.support.Constants;
 
 import redis.clients.jedis.ShardedJedis;
 
@@ -43,7 +43,7 @@ public class UserRepositoryImpl implements UserRepository {
     
     @Override
     public void makeDefaultBalance(String token) {
-	UserBalance bal = new UserBalance("GBP", BigDecimal.valueOf(100.00d));
+	UserBalance bal = new UserBalance(Constants.CURRENCY, Constants.INITIAL_BALANCE);
 	setUserBalance(token, bal);
     }
 

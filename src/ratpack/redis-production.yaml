@@ -1,0 +1,5 @@
+redis:
+  url: redis://10.128.0.4:6379
+  name: 10.128.0.4
+  port: 6379
+  auth: 

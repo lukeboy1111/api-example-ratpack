@@ -17,10 +17,8 @@ plugins {
     id 'io.ratpack.ratpack-java' version '1.5.0'
     id 'io.ratpack.ratpack-groovy' version '1.2.0'
     id 'com.github.johnrengelman.shadow' version '4.0.2'
-    // any higher version didn't work correctly, wierd - probably my environment.
-    id 'com.bmuschko.docker-java-application' version '3.5.0'
-    id "de.qaware.cloud.deployer" version "0.9.2"
     id "io.freefair.lombok" version "5.3.0"
+    id 'com.bmuschko.docker-java-application' version '3.5.0'
     id 'com.google.cloud.tools.jib' version '2.7.0'
 }
 
@@ -33,7 +31,6 @@ if (!JavaVersion.current().java8Compatible) {
 // See: http://gradle.org/docs/current/userguide/application_plugin.html
 apply plugin: "io.ratpack.ratpack-java"
 apply plugin: "io.ratpack.ratpack-groovy"
-apply plugin: "de.qaware.cloud.deployer"
 
 repositories {
     jcenter()
@@ -90,13 +87,24 @@ shadowJar {
     version = null
 }
 
-docker {
-    javaApplication {
-        baseImage = 'library/java:openjdk-8-jre-alpine'
-        maintainer = 'Luke C "luke@lukesplace.net"'
-        ports = [5050]
-	tag = 'lukesplace-net-api-ratpack-java'
-    }
+/**
+ * moves any platform specific files such as redis-production.yaml to redis.yaml.
+ */
+task profileSetup {
+	delete 'build'
+	doLast {
+		copy {
+			from('src/ratpack') {
+				include "*-${environment}.*"
+			}
+			into('build/resources/main')
+			into ('src/ratpack')
+
+			rename { String fileName ->
+				fileName.replace('-' + environment, '')
+			}
+		}
+	}
 }
 
 task sourceJar(type: Jar) {
@@ -104,7 +112,19 @@ task sourceJar(type: Jar) {
     classifier = 'sources'
 }
 
+docker {
+    javaApplication {
+        baseImage = 'library/java:openjdk-8-jre-alpine'
+        maintainer = 'Luke C "luke@lukesplace.net"'
+        ports = [5050]
+        tag = 'lukesplace-net-api-ratpack-java'
+    }
+}
 
+/**
+ * docker image generation.
+ */
+jib.to.credHelper='gcloud.cmd'
 jib.to.image = 'gcr.io/luketest1/lukesplace-net-api-ratpack-java'
 jib.to.auth.username = 'oauth2accesstoken'
 jib.to.auth.password = 'gcloud.cmd auth print-access-token'.execute().text.trim()

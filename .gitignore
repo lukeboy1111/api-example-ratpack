@@ -2,6 +2,7 @@
 .gradle
 .project
 .classpath
+lombok.config
 bin
 build
 src/ratpack/redis.yaml
